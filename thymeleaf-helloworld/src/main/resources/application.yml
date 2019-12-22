@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: thymeleaf-helloworld
+  profiles:
+    active: dev

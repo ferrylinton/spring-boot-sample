@@ -40,6 +40,7 @@
 	<modules>
 		<module>helloworld</module>
 		<module>thymeleaf-helloworld</module>
+		<module>activiti-simple</module>
 	</modules>
 
 </project>

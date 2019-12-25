@@ -7,11 +7,11 @@
 		<artifactId>spring-boot-sample</artifactId>
 		<version>0.0.3</version>
 	</parent>
-
+	
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>helloworld</artifactId>
-	<name>helloworld</name>
-	<description>Helloworld</description>
+	<artifactId>activiti-simple</artifactId>
+	<name>activiti-simple</name>
+	<description>activiti-simple</description>
 	<packaging>war</packaging>
 
 	<dependencies>
@@ -19,6 +19,18 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-spring-boot-starter</artifactId>
+			<version>7.0.0.SR1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>

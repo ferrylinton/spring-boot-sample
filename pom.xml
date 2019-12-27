@@ -38,9 +38,19 @@
 	</dependencies>
 
 	<modules>
-		<module>helloworld</module>
-		<module>thymeleaf-helloworld</module>
+		<module>simple</module>
+		<module>thymeleaf-simple</module>
 		<module>activiti-simple</module>
 	</modules>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.amashchenko.maven.plugin</groupId>
+				<artifactId>gitflow-maven-plugin</artifactId>
+				<version>1.14.0</version>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

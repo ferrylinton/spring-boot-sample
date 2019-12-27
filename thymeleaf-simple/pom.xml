@@ -9,28 +9,20 @@
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>activiti-simple</artifactId>
-	<name>activiti-simple</name>
-	<description>activiti-simple</description>
+	<artifactId>thymeleaf-simple</artifactId>
+	<name>simple</name>
+	<description>simple</description>
 	<packaging>jar</packaging>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-spring-boot-starter</artifactId>
-			<version>7.0.0.SR1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-		</dependency>
-
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -41,5 +33,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	
 </project>

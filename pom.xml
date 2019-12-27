@@ -11,14 +11,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bloghu</groupId>
 	<artifactId>spring-boot-sample</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 	<packaging>pom</packaging>
 	<name>spring-boot-sample</name>
 	<description>Spring Boot Sample</description>
 
 	<properties>
-		<maven.compiler.target>1.11</maven.compiler.target>
-		<maven.compiler.source>1.11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
 	</properties>
 
 	<dependencies>

@@ -12,30 +12,21 @@
 	</parent>
 
 	<groupId>com.bloghu</groupId>
-	<artifactId>thymeleaf-simple</artifactId>
+	<artifactId>security-simple</artifactId>
 	<version>0.0.1</version>
-	<name>thymeleaf-simple</name>
-	<description>Simple Thymeleaf Sample</description>
+	<name>security-simple</name>
+	<description>security-simple</description>
 	<packaging>jar</packaging>
 
-	<properties>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
-	</properties>
-
 	<dependencies>
-
+		
 		<!-- SPRING BOOT -->
-
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-
+		
 		<!-- DEVELOPMENT TOOL -->
 
 		<dependency>
@@ -48,9 +39,9 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
-
+		
 	</dependencies>
-
+	
 	<build>
 		<plugins>
 			<plugin>

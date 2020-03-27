@@ -1,4 +1,4 @@
-package com.bloghu.thymeleaf.helloword.controller;
+package com.bloghu.thymeleafsimple.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,4 +12,5 @@ public class HelloworldController {
         model.addAttribute("message", "Salam perdamaian");
         return "helloworld";
     }
+	
 }

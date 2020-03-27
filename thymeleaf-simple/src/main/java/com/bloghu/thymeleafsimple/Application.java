@@ -1,4 +1,4 @@
-package com.bloghu.thymeleaf.helloword;
+package com.bloghu.thymeleafsimple;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

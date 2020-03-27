@@ -1,5 +1,5 @@
 logging:
   file:
-    name: logs/thymeleaf-helloworld.log
+    name: logs/dev.log
     max-history: 10
-    max-size: 10MB
+    max-size: 1MB

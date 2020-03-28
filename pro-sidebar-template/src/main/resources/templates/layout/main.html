@@ -2,22 +2,25 @@
 <html 
 	lang="en" 
 	xmlns:th="http://www.thymeleaf.org" 
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	th:with="hasCdnjsProfile=${#arrays.contains(@environment.getActiveProfiles(),'cdnjs')}, hasMinProfile=${#arrays.contains(@environment.getActiveProfiles(),'min')}, hasTestProfile=${#arrays.contains(@environment.getActiveProfiles(),'test')}">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3">
+    <meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap">
 	<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Sidebar Template</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-    <link rel="stylesheet" href="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.min.css">
+	<th:block th:with="libs=${hasCdnjsProfile} ? 'https://cdnjs.cloudflare.com/ajax/libs' : @{/static/libs}">
+	    <link rel="stylesheet" th:href="|${libs}/twitter-bootstrap/4.4.0/css/bootstrap.min.css|">
+	    <link rel="stylesheet" th:href="|${libs}/font-awesome/5.13.0/css/all.min.css|">
+	    <link rel="stylesheet" th:href="|${libs}/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css|">
+	</th:block>
 
-    <link rel="stylesheet" th:href="@{css/main.css}">
-    <link rel="stylesheet" th:href="@{css/sidebar-themes.css}">
-    <link rel="shortcut icon" type="image/png" th:href="@{img/favicon.png}" />
+    <link rel="stylesheet" th:href="@{/static/css/main.css}">
+    <link rel="stylesheet" th:href="@{/static/css/sidebar-themes.css}">
+    <link rel="shortcut icon" type="image/png" th:href="@{/static/img/favicon.png}" />
 </head>
 
 <body>
@@ -31,7 +34,7 @@
                 <!-- sidebar-header  -->
                 <div class="sidebar-item sidebar-header d-flex flex-nowrap">
                     <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="img/user.jpg" alt="User picture">
+                        <img class="img-responsive img-rounded" th:src="@{/static/img/user.jpg}" alt="User picture">
                     </div>
                     <div class="user-info">
                         <span class="user-name">Jhon
@@ -270,7 +273,7 @@
                         <a class="dropdown-item" href="#">
                             <div class="message-content">
                                 <div class="pic">
-                                    <img src="img/user.jpg" alt="">
+                                    <img th:src="@{/static/img/user.jpg}" alt="">
                                 </div>
                                 <div class="content">
                                     <div class="message-title">
@@ -285,7 +288,7 @@
                         <a class="dropdown-item" href="#">
                             <div class="message-content">
                                 <div class="pic">
-                                    <img src="img/user.jpg" alt="">
+                                    <img th:src="@{/static/img/user.jpg}" alt="">
                                 </div>
                                 <div class="content">
                                     <div class="message-title">
@@ -300,7 +303,7 @@
                         <a class="dropdown-item" href="#">
                             <div class="message-content">
                                 <div class="pic">
-                                    <img src="img/user.jpg" alt="">
+                                    <img th:src="@{static/img/user.jpg}" alt="">
                                 </div>
                                 <div class="content">
                                     <div class="message-title">
@@ -347,12 +350,13 @@
         <!-- page-content" -->
     </div>
     <!-- page-wrapper -->
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-    <script src="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script th:src="@{js/main.js}"></script>
+	<th:block th:with="libs=${hasCdnjsProfile} ? 'https://cdnjs.cloudflare.com/ajax/libs' : @{/static/libs}">
+	    <script th:src="|${libs}/jquery/3.4.1/jquery.min.js|"></script>
+	    <script th:src="|${libs}/popper.js/1.16.1/umd/popper.min.js|"></script>
+	    <script th:src="|${libs}/twitter-bootstrap/4.4.0/js/bootstrap.min.js|"></script>
+	    <script th:src="|${libs}/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js|"></script>
+    </th:block>
+    <script th:src="@{/static/js/main.js}"></script>
 </body>
 
 </html>

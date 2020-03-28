@@ -26,3 +26,4 @@ generated
 /dist/
 /nbdist/
 /.nb-gradle/
+/.metadata/

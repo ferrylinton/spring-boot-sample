@@ -12,10 +12,10 @@
 	</parent>
 
 	<groupId>com.bloghu</groupId>
-	<artifactId>thymeleaf-simple</artifactId>
+	<artifactId>pro-sidebar-template</artifactId>
 	<version>0.0.1</version>
-	<name>thymeleaf-simple</name>
-	<description>Simple Thymeleaf Sample</description>
+	<name>pro-sidebar-template</name>
+	<description>Pro Sidebar Template</description>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -35,6 +35,26 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+		
+		<!-- TYHMELEAF -->
+
+		<dependency>
+ 			<groupId>nz.net.ultraq.thymeleaf</groupId>
+ 			<artifactId>thymeleaf-layout-dialect</artifactId>
+ 		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring5</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.bufferings</groupId>
+			<artifactId>thymeleaf-extras-nl2br</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-java8time</artifactId>
+		</dependency>
 
 		<!-- DEVELOPMENT TOOL -->
 
@@ -48,9 +68,9 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
-		
+
 		<!-- TEST TOOL -->
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

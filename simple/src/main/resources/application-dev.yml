@@ -1,5 +1,0 @@
-logging:
-  file:
-    name: logs/helloworld.log
-    max-history: 10
-    max-size: 1MB

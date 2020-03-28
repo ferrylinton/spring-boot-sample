@@ -1,0 +1,21 @@
+spring:
+  mvc:
+    ignore-default-model-on-redirect: true
+    static-path-pattern: /static/**
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+  devtools:
+    livereload:
+      enabled: false
+      port: 35729
+logging:
+  file:
+    name: logs/prod.log
+    max-history: 10
+    max-size: 1MB

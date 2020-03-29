@@ -7,7 +7,7 @@ spring:
       max-file-size: 5MB
       max-request-size: 5MB
   thymeleaf:
-    prefix: classpath:/templates/
+    prefix: classpath:/templates-min/
     suffix: .html
     cache: false
   devtools:

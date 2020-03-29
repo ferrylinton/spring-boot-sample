@@ -3,7 +3,7 @@
 	lang="en" 
 	xmlns:th="http://www.thymeleaf.org" 
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	th:with="hasCdnjsProfile=${#arrays.contains(@environment.getActiveProfiles(),'cdnjs')}, hasMinProfile=${#arrays.contains(@environment.getActiveProfiles(),'min')}, hasTestProfile=${#arrays.contains(@environment.getActiveProfiles(),'test')}">
+	th:with="isProd=${#arrays.contains(@environment.getActiveProfiles(),'prod')}">
 
 <head>
     <meta charset="utf-8">
@@ -12,14 +12,19 @@
     <meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap">
 	<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Sidebar Template</title>
 
-	<th:block th:with="libs=${hasCdnjsProfile} ? 'https://cdnjs.cloudflare.com/ajax/libs' : @{/static/libs}">
+	<th:block th:with="libs=${isProd} ? 'https://cdnjs.cloudflare.com/ajax/libs' : @{/static/libs}">
 	    <link rel="stylesheet" th:href="|${libs}/twitter-bootstrap/4.4.0/css/bootstrap.min.css|">
 	    <link rel="stylesheet" th:href="|${libs}/font-awesome/5.13.0/css/all.min.css|">
 	    <link rel="stylesheet" th:href="|${libs}/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css|">
 	</th:block>
+	<th:block th:if="${isProd}" th:with="id=${#strings.randomAlphanumeric(10)}">
+		<link rel="stylesheet" th:href="@{|/static/css/all.min.css?${id}|}" />
+	</th:block>
+	<th:block th:if="${!isProd}">
+		<link rel="stylesheet" th:href="@{/static/css/main.css}" />
+		<link rel="stylesheet" th:href="@{/static/css/sidebar-themes.css}" />
+	</th:block>
 
-    <link rel="stylesheet" th:href="@{/static/css/main.css}">
-    <link rel="stylesheet" th:href="@{/static/css/sidebar-themes.css}">
     <link rel="shortcut icon" type="image/png" th:href="@{/static/img/favicon.png}" />
 </head>
 
@@ -350,13 +355,18 @@
         <!-- page-content" -->
     </div>
     <!-- page-wrapper -->
-	<th:block th:with="libs=${hasCdnjsProfile} ? 'https://cdnjs.cloudflare.com/ajax/libs' : @{/static/libs}">
+	<th:block th:with="libs=${isProd} ? 'https://cdnjs.cloudflare.com/ajax/libs' : @{/static/libs}">
 	    <script th:src="|${libs}/jquery/3.4.1/jquery.min.js|"></script>
 	    <script th:src="|${libs}/popper.js/1.16.1/umd/popper.min.js|"></script>
 	    <script th:src="|${libs}/twitter-bootstrap/4.4.0/js/bootstrap.min.js|"></script>
 	    <script th:src="|${libs}/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js|"></script>
     </th:block>
-    <script th:src="@{/static/js/main.js}"></script>
+    <th:block th:if="${isProd}" th:with="id=${#strings.randomAlphanumeric(10)}">
+    	<script th:src="@{|/static/js/all.min.js?${id}|}"></script>
+  	</th:block>
+	<th:block th:if="${!isProd}">
+   		<script th:src="@{/static/js/main.js}"></script>
+  	</th:block>
 </body>
 
 </html>

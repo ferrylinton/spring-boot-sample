@@ -5,6 +5,8 @@
 ```
 mvn spring-boot:run
 mvn spring-boot:run -Dspring-boot.run.profiles=prod
+mvn spring-boot:run -Drun.jvmArguments='-Dserver.port=8762'
+java -jar target/pro-sidebar-template.jar --server.port=8762 -Dspring.profiles.active=dev
 ```
 ## Deploy
 
@@ -20,11 +22,11 @@ mvn clean package -DskipTests=false
 
 ### Copy To Server
 ```
-scp target/loyalty-0.0.1-SNAPSHOT.war root@192.227.166.217:/loyalty
+scp target/pro-sidebar-template.jar root@192.227.166.217:/loyalty
 ```
 
 ### Run
 ```
 nohup mvn spring-boot:run &
-nohup java -jar target/loyalty-0.0.1-SNAPSHOT.war &
+nohup java -jar target/pro-sidebar-template.jar &
 ```

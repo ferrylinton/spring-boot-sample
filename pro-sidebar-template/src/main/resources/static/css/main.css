@@ -181,28 +181,6 @@
 	left: 0;
 }
 
-.sidebar-wrapper .sidebar-brand {
-	padding: 1rem 1.2rem;
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-	height: 55px;
-}
-
-.sidebar-wrapper .sidebar-brand>a {
-	text-transform: uppercase;
-	font-weight: bold;
-	-webkit-box-flex: 1;
-	-ms-flex-positive: 1;
-	flex-grow: 1;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
-
 .sidebar-wrapper .sidebar-header {
 	padding: 20px;
 	overflow: hidden;

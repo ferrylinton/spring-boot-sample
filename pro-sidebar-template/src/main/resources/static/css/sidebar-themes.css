@@ -1,9 +1,11 @@
 .default-theme .sidebar-wrapper {
-  background-color: #1d1d1d; }
-  .default-theme .sidebar-wrapper .sidebar-item {
-    border-top: 1px solid #2b2b2b; }
-    .default-theme .sidebar-wrapper .sidebar-item:first-child {
-      border-top: none; }
+	background-color: #1d1d1d; 
+}
+
+.default-theme .sidebar-wrapper .sidebar-item {
+	border-top: 1px solid #2b2b2b; 
+}
+
   .default-theme .sidebar-wrapper a:not(.dropdown-item),
   .default-theme .sidebar-wrapper .sidebar-header,
   .default-theme .sidebar-wrapper .sidebar-search input,

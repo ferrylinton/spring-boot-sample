@@ -15,26 +15,10 @@
 				  </span>
 				</div>
 				<a class="logo" href="index.html" th:href="@{/}">logo</a>
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item dropdown nav-data" id="nav-data">
-						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="menu"> <span class="fas fa-user"></span> ferrylinton</a>
-						<div class="dropdown-menu dropdown-menu-right"
-							aria-labelledby="menu">
-
-							<a class="dropdown-item" th:href="@{/login}"> 
-								<span class="fas fa-sign-in-alt"></span> <span class="label">Login</span>
-							</a> 
-							<a class="dropdown-item" th:href="@{/register}"> 
-								<span class="fas fa-user-plus"></span> <span class="label">Register</span>
-							</a>
-							<div class="dropdown-divider"></div>
-							<form th:action="@{/logout}" method="post">
-								<button class="dropdown-item block" type="submit">
-									<span class="fas fa-sign-out-alt"></span> <span>Logout</span>
-								</button>
-							</form>
-						</div></li>
-				</ul>
+				<div class="ml-auto">
+					<a class="btn btn-primary" href="#" role="button">Register</a>
+					<a class="btn btn-primary" href="#" role="button">Login</a>
+				</div>
 			</nav>
 		</div>
 	</div>

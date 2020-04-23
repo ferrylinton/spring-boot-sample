@@ -12,7 +12,7 @@ public class OAuth2ClientAspect {
 
 	private Cache cache;
 	
-	@Around("execution(public * getClientByClientId(..)) && args(clientId)")
+	@Around("execution(* org.mitre.oauth2.repository.impl.JpaOAuth2ClientRepository.getClientByClientId(..)) && args(clientId)")
 	public Object getClientByClientId(ProceedingJoinPoint proceedingJoinPoint, String clientId){
 		System.out.println(">>>>>>>>>>>>>>>>>> Before invoking getClientByClientId(). clientId = " + clientId);
 		Object value = null;

@@ -34,24 +34,19 @@
 
 	<aop:aspectj-autoproxy />
 	
-	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+	<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
 		<property name="configLocation" value="classpath:ehcache.xml"></property>
+		<property name="shared" value="true" />
 	</bean>
 
-	<bean id="cache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-	    <property name="cacheManager">
-	        <ref bean="cacheManager"/>
-	    </property>
-	    <property name="cacheName" value="defaultCache"/>
+	<bean id="oauth2ClientCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+	    <property name="cacheManager" ref="ehCacheManager"/>
+	    <property name="cacheName" value="oauth2ClientCache"/>
 	</bean>
 	
-	<bean id="oauth2ClientAspect" class="org.mitre.cache.OAuth2ClientAspect">
-		<property name="cache" ref="cache" />
+	<bean id="systemScopeCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+	    <property name="cacheManager" ref="ehCacheManager"/>
+	    <property name="cacheName" value="systemScopeCache"/>
 	</bean>
-	
-	<bean id="systemScopeAspect" class="org.mitre.cache.SystemScopeAspect">
-		<property name="cache" ref="cache" />
-	</bean>
-	
 	
 </beans>

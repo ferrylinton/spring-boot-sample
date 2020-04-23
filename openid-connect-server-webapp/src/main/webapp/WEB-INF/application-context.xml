@@ -248,7 +248,8 @@
 	<!-- import application-local configuration information (such as bean definitions) -->
 	<import resource="local-config.xml" />
 	
-	<!-- AOP -->
-	<import resource="aop-config.xml" />
+	<!-- EHCACHE CONFIG -->
+	
+	<import resource="ehcache-config.xml" />
 
 </beans>

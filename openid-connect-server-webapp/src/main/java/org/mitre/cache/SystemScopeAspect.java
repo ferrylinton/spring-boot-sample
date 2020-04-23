@@ -5,73 +5,69 @@ import net.sf.ehcache.Element;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.aspectj.lang.annotation.Around;
 
+@Component
 @Aspect
 public class SystemScopeAspect {
 
-	private Cache cache;
+	private static final Logger logger = LoggerFactory.getLogger(SystemScopeAspect.class);
+	
+	@Autowired
+	private Cache systemScopeCache;
 	
 	@Around("execution(* org.mitre.oauth2.repository.impl.JpaSystemScopeRepository.getById(..)) && args(id)")
-	public Object getById(ProceedingJoinPoint proceedingJoinPoint, Long id){
-		System.out.println(">>>>>>>>>>>>>>>>>> Before invoking getById(). id = " + id);
-		Object value = null;
+	public Object getById(ProceedingJoinPoint proceedingJoinPoint, Long id) throws Throwable{
+		Object obj = null;
 		
 		try {
 			
-			if (cache.isKeyInCache(id)) {
-	            System.out.println(">>>>> Returning from cache....");
-	            return cache.get(id).getObjectValue();
+			if (systemScopeCache.isKeyInCache(id)) {
+				logger.info("cache :: org.mitre.oauth2.repository.impl.JpaSystemScopeRepository.getById() from cache");
+	            return systemScopeCache.get(id).getObjectValue();
 	        } else {
-	        	value = proceedingJoinPoint.proceed();
+	        	obj = proceedingJoinPoint.proceed();
 	           
-	            if (value != null) {
-	                System.out.println(">>>>> Storing into cache...");
-	                cache.put(new Element(id, value));
+	            if (obj != null) {
+	                systemScopeCache.put(new Element(id, obj));
 	            }
 	        }
 
 		} catch (Throwable e) {
-			e.printStackTrace();
+			logger.error(e.getLocalizedMessage(), e);
+			throw e;
 		}
 		
-		System.out.println(">>>>>>>>>>>>>>>>>> After invoking getById(). Return value = "+value);
-		return value;
+		return obj;
 	}
 	
 	@Around("execution(* org.mitre.oauth2.repository.impl.JpaSystemScopeRepository.getByValue(..)) && args(scope)")
-	public Object getByValue(ProceedingJoinPoint proceedingJoinPoint, String scope){
-		System.out.println(">>>>>>>>>>>>>>>>>> Before invoking getByValue(). scope = " + scope);
-		Object value = null;
+	public Object getByValue(ProceedingJoinPoint proceedingJoinPoint, String scope) throws Throwable{
+		Object obj = null;
 		
 		try {
 			
-			if (cache.isKeyInCache(scope)) {
-	            System.out.println(">>>>> Returning from cache....");
-	            return cache.get(scope).getObjectValue();
+			if (systemScopeCache.isKeyInCache(scope)) {
+				logger.info("cache :: org.mitre.oauth2.repository.impl.JpaSystemScopeRepository.getByValue() from cache");
+	            return systemScopeCache.get(scope).getObjectValue();
 	        } else {
-	        	value = proceedingJoinPoint.proceed();
+	        	obj = proceedingJoinPoint.proceed();
 	           
-	            if (value != null) {
-	                System.out.println(">>>>> Storing into cache...");
-	                cache.put(new Element(scope, value));
+	            if (obj != null) {
+	                systemScopeCache.put(new Element(scope, obj));
 	            }
 	        }
 
 		} catch (Throwable e) {
-			e.printStackTrace();
+			logger.error(e.getLocalizedMessage(), e);
+			throw e;
 		}
 		
-		System.out.println(">>>>>>>>>>>>>>>>>> After invoking getByValue(). Return value = "+value);
-		return value;
-	}
-
-	public Cache getCache() {
-		return cache;
-	}
-
-	public void setCache(Cache cache) {
-		this.cache = cache;
+		return obj;
 	}
 
 }

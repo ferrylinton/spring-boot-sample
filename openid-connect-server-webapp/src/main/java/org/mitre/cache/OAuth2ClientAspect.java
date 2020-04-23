@@ -1,50 +1,48 @@
 package org.mitre.cache;
 
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Around;
-
+@Component
 @Aspect
 public class OAuth2ClientAspect {
 
-	private Cache cache;
+	private static final Logger logger = LoggerFactory.getLogger(OAuth2ClientAspect.class);
+	
+	@Autowired
+	private Cache oauth2ClientCache;
 	
 	@Around("execution(* org.mitre.oauth2.repository.impl.JpaOAuth2ClientRepository.getClientByClientId(..)) && args(clientId)")
-	public Object getClientByClientId(ProceedingJoinPoint proceedingJoinPoint, String clientId){
-		System.out.println(">>>>>>>>>>>>>>>>>> Before invoking getClientByClientId(). clientId = " + clientId);
-		Object value = null;
+	public Object getClientByClientId(ProceedingJoinPoint proceedingJoinPoint, String clientId) throws Throwable{
+		Object obj = null;
 		
 		try {
 			
-			if (cache.isKeyInCache(clientId)) {
-	            System.out.println(">>>>> Returning from cache....");
-	            return cache.get(clientId).getObjectValue();
+			if (oauth2ClientCache.isKeyInCache(clientId)) {
+				logger.info("cache :: org.mitre.oauth2.repository.impl.JpaOAuth2ClientRepository.getClientByClientId() from cache");
+	            return oauth2ClientCache.get(clientId).getObjectValue();
 	        } else {
-	        	value = proceedingJoinPoint.proceed();
+	        	obj = proceedingJoinPoint.proceed();
 	           
-	            if (value != null) {
-	                System.out.println(">>>>> Storing into cache...");
-	                cache.put(new Element(clientId, value));
+	            if (obj != null) {
+	                oauth2ClientCache.put(new Element(clientId, obj));
 	            }
 	        }
 
 		} catch (Throwable e) {
-			e.printStackTrace();
+			logger.error(e.getLocalizedMessage(), e);
+			throw e;
 		}
 		
-		System.out.println(">>>>>>>>>>>>>>>>>> After invoking getClientByClientId(). Return value = "+value);
-		return value;
-	}
-
-	public Cache getCache() {
-		return cache;
-	}
-
-	public void setCache(Cache cache) {
-		this.cache = cache;
+		return obj;
 	}
 
 }

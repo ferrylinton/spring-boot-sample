@@ -30,9 +30,8 @@ public class OAuth2ClientAspect {
 		
 		try {
 			
-			
-			if (oauth2ClientCache.isKeyInCache(clientId)) {
-				logger.info("cache :: org.mitre.oauth2.repository.impl.JpaOAuth2ClientRepository.getClientByClientId() from cache");
+			if (oauth2ClientCache.isKeyInCache(clientId) && oauth2ClientCache.get(clientId).getObjectValue() != null) {
+				logger.info("cache :: org.mitre.oauth2.repository.impl.JpaOAuth2ClientRepository.getClientByClientId()");
 	            return oauth2ClientCache.get(clientId).getObjectValue();
 	        } else {
 	        	obj = proceedingJoinPoint.proceed();
@@ -55,7 +54,7 @@ public class OAuth2ClientAspect {
 		try {
 			
 			if (oauth2ClientCache.isKeyInCache(client.getClientId())) {
-				logger.info ("cache :: org.mitre.oauth2.repository.impl.JpaOAuth2ClientRepository.updateClient() :: remove [clientId='{}'] from cache", client.getClientId());
+				logger.info ("cache :: org.mitre.oauth2.repository.impl.JpaOAuth2ClientRepository.updateClient() :: remove [clientId='{}']", client.getClientId());
 				
 	            oauth2ClientCache.remove(client.getClientId());
 	        }
@@ -70,7 +69,7 @@ public class OAuth2ClientAspect {
 		try {
 
 			if (oauth2ClientCache.isKeyInCache(client.getClientId())) {
-				logger.info ("cache :: org.mitre.oauth2.repository.impl.JpaOAuth2ClientRepository.deleteClient() :: remove [clientId='{}'] from cache", client.getClientId());
+				logger.info ("cache :: org.mitre.oauth2.repository.impl.JpaOAuth2ClientRepository.deleteClient() :: remove [clientId='{}']", client.getClientId());
 				oauth2ClientCache.remove(client.getClientId());
 	        }
 			

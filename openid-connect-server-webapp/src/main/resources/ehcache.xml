@@ -1,25 +1,63 @@
-<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false">
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache 
+	name="openid" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd"
+	updateCheck="true" 
+	monitoring="autodetect"
+	dynamicConfig="true">
+        
+    <!--
+    Default Cache configuration. These settings will be applied to caches
+    created programmatically using CacheManager.add(String cacheName).
+    This element is optional, and using CacheManager.add(String cacheName) when
+    its not present will throw CacheException
 
-    <diskStore path="java.io.tmpdir"/>
+    The defaultCache has an implicit name "default" which is a reserved cache name.
+    -->
+    <defaultCache
+		eternal="false"
+    	overflowToDisk="false"
+   		timeToIdleSeconds="120"
+     	timeToLiveSeconds="120"
+    	diskSpoolBufferSizeMB="30"
+     	maxElementsOnDisk="10"
+     	diskPersistent="false"
+      	diskExpiryThreadIntervalSeconds="120"
+    	memoryStoreEvictionPolicy="LRU"
+	/>
 
-    <cache name="oauth2ClientCache"
-           maxElementsInMemory="100"
-           eternal="false"
-           timeToIdleSeconds="1800"
-           timeToLiveSeconds="3600"          
-           overflowToDisk="false"
-           diskPersistent="false"
-           memoryStoreEvictionPolicy="LRU"
-            />
+	<cache 
+    	name="oauth2ClientCache"
+   		maxElementsInMemory="100"
+   		eternal="false"
+    	timeToIdleSeconds="1800"
+    	timeToLiveSeconds="3600"          
+   		overflowToDisk="false"
+   		diskPersistent="false"
+    	memoryStoreEvictionPolicy="LRU"
+    />
             
- 	<cache name="systemScopeCache"
-           maxElementsInMemory="100"
-           eternal="false"
-           timeToIdleSeconds="1800"
-           timeToLiveSeconds="3600"          
-           overflowToDisk="false"
-           diskPersistent="false"
-           memoryStoreEvictionPolicy="LRU"
-            />
+ 	<cache 
+ 		name="systemScopeCache"
+     	maxElementsInMemory="20"
+     	eternal="false"
+     	timeToIdleSeconds="1800"
+    	timeToLiveSeconds="3600"          
+    	overflowToDisk="false"
+     	diskPersistent="false"
+     	memoryStoreEvictionPolicy="LRU"
+	/>
+            
+	<cache 
+		name="oauth2TokenCache"
+  		maxElementsInMemory="100"
+   		eternal="false"
+ 		timeToIdleSeconds="1800"
+     	timeToLiveSeconds="3600"          
+   		overflowToDisk="false"
+    	diskPersistent="false"
+    	memoryStoreEvictionPolicy="LRU"
+	/>
 
 </ehcache>

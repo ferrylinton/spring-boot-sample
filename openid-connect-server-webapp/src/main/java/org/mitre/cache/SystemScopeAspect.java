@@ -26,8 +26,8 @@ public class SystemScopeAspect {
 		
 		try {
 			
-			if (systemScopeCache.isKeyInCache(id)) {
-				logger.info("cache :: org.mitre.oauth2.repository.impl.JpaSystemScopeRepository.getById() from cache");
+			if (systemScopeCache.isKeyInCache(id) && systemScopeCache.get(id).getObjectValue() != null) {
+				logger.info("cache :: org.mitre.oauth2.repository.impl.JpaSystemScopeRepository.getById()");
 	            return systemScopeCache.get(id).getObjectValue();
 	        } else {
 	        	obj = proceedingJoinPoint.proceed();
@@ -51,8 +51,8 @@ public class SystemScopeAspect {
 		
 		try {
 			
-			if (systemScopeCache.isKeyInCache(scope)) {
-				logger.info("cache :: org.mitre.oauth2.repository.impl.JpaSystemScopeRepository.getByValue() from cache");
+			if (systemScopeCache.isKeyInCache(scope) && systemScopeCache.get(scope).getObjectValue() != null) {
+				logger.info("cache :: org.mitre.oauth2.repository.impl.JpaSystemScopeRepository.getByValue()");
 	            return systemScopeCache.get(scope).getObjectValue();
 	        } else {
 	        	obj = proceedingJoinPoint.proceed();

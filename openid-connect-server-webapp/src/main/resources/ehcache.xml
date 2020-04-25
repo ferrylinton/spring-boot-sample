@@ -16,23 +16,21 @@
     The defaultCache has an implicit name "default" which is a reserved cache name.
     -->
     <defaultCache
-		eternal="false"
-    	overflowToDisk="false"
-   		timeToIdleSeconds="120"
-     	timeToLiveSeconds="120"
-    	diskSpoolBufferSizeMB="30"
-     	maxElementsOnDisk="10"
-     	diskPersistent="false"
-      	diskExpiryThreadIntervalSeconds="120"
+		maxElementsInMemory="100"
+   		eternal="false"
+    	timeToIdleSeconds="600"
+    	timeToLiveSeconds="3600"          
+   		overflowToDisk="false"
+   		diskPersistent="false"
     	memoryStoreEvictionPolicy="LRU"
 	/>
 
 	<cache 
     	name="oauth2ClientCache"
-   		maxElementsInMemory="100"
+   		maxElementsInMemory="1"
    		eternal="false"
-    	timeToIdleSeconds="1800"
-    	timeToLiveSeconds="3600"          
+    	timeToIdleSeconds="2"
+    	timeToLiveSeconds="2"          
    		overflowToDisk="false"
    		diskPersistent="false"
     	memoryStoreEvictionPolicy="LRU"
@@ -41,9 +39,7 @@
  	<cache 
  		name="systemScopeCache"
      	maxElementsInMemory="20"
-     	eternal="false"
-     	timeToIdleSeconds="1800"
-    	timeToLiveSeconds="3600"          
+     	eternal="true"       
     	overflowToDisk="false"
      	diskPersistent="false"
      	memoryStoreEvictionPolicy="LRU"
@@ -51,10 +47,10 @@
             
 	<cache 
 		name="oauth2TokenCache"
-  		maxElementsInMemory="100"
+  		maxElementsInMemory="1"
    		eternal="false"
- 		timeToIdleSeconds="1800"
-     	timeToLiveSeconds="3600"          
+ 		timeToIdleSeconds="2"
+     	timeToLiveSeconds="2"          
    		overflowToDisk="false"
     	diskPersistent="false"
     	memoryStoreEvictionPolicy="LRU"

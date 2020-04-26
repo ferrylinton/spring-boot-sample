@@ -1,12 +1,4 @@
 --
--- Turn off autocommit and start a transaction so that we can use the temp tables
---
-
-SET AUTOCOMMIT FALSE;
-
-START TRANSACTION;
-
---
 -- Insert user information into the temporary tables. To add users to the HSQL database, edit things here.
 -- 
 
@@ -96,34 +88,14 @@ INSERT INTO user_info_TEMP (sub, preferred_username, name, email, email_verified
   ('01900.FLANRJQW','user10','Demo User10','user10@example.com', true);
 
  
---
--- Merge the temporary users safely into the database. This is a two-step process to keep users from being created on every startup with a persistent store.
---
-
-MERGE INTO users 
-  USING (SELECT username, password, enabled FROM users_TEMP) AS vals(username, password, enabled)
-  ON vals.username = users.username
-  WHEN NOT MATCHED THEN 
-    INSERT (username, password, enabled) VALUES(vals.username, vals.password, vals.enabled);
-
-MERGE INTO authorities 
-  USING (SELECT username, authority FROM authorities_TEMP) AS vals(username, authority)
-  ON vals.username = authorities.username AND vals.authority = authorities.authority
-  WHEN NOT MATCHED THEN 
-    INSERT (username,authority) values (vals.username, vals.authority);
-
-MERGE INTO user_info 
-  USING (SELECT sub, preferred_username, name, email, email_verified FROM user_info_TEMP) AS vals(sub, preferred_username, name, email, email_verified)
-  ON vals.preferred_username = user_info.preferred_username
-  WHEN NOT MATCHED THEN 
-    INSERT (sub, preferred_username, name, email, email_verified) VALUES (vals.sub, vals.preferred_username, vals.name, vals.email, vals.email_verified);
-
-    
--- 
--- Close the transaction and turn autocommit back on
--- 
-    
-COMMIT;
-
-SET AUTOCOMMIT TRUE;
-
+INSERT INTO users
+	(username, password, enabled)
+	SELECT username, password, enabled FROM users_TEMP;
+	
+INSERT INTO authorities
+	(username,authority)
+	SELECT username, authority FROM authorities_TEMP;
+	
+INSERT INTO user_info
+	(sub, preferred_username, name, email, email_verified)
+	SELECT sub, preferred_username, name, email, email_verified FROM user_info_TEMP;

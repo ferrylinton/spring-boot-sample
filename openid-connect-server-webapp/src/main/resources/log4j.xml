@@ -53,6 +53,10 @@
 	</logger>
 					
 	<!-- 3rdparty Loggers -->
+	<logger name="org.springframework.core.env">
+		<level value="debug" />
+	</logger>
+	
 	<logger name="org.springframework.core">
 		<level value="info" />
 	</logger>

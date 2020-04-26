@@ -23,12 +23,12 @@
 
 	<beans profile="db">
 		<jdbc:initialize-database data-source="dataSource">
-			<jdbc:script location="classpath:/db/tables/mysql_database_tables.sql"/>
-			<jdbc:script location="classpath:/db/tables/security-schema.sql"/>
-			<jdbc:script location="classpath:/db/tables/loading_temp_tables.sql"/>
-			<jdbc:script location="classpath:/db/users.sql"/>
-			<jdbc:script location="classpath:/db/clients.sql"/>
-			<jdbc:script location="classpath:/db/scopes.sql"/>
+			<jdbc:script location="classpath:/db/mysql/database_tables.sql"/>
+			<jdbc:script location="classpath:/db/mysql/security-schema.sql"/>
+			<jdbc:script location="classpath:/db/mysql/loading_temp_tables.sql"/>
+			<jdbc:script location="classpath:/db/mysql/users.sql"/>
+			<jdbc:script location="classpath:/db/mysql/clients.sql"/>
+			<jdbc:script location="classpath:/db/mysql/scopes.sql"/>
 		</jdbc:initialize-database>
 	</beans>
 	

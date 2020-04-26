@@ -24,12 +24,12 @@
 
 	<beans profile="db">
 		<jdbc:initialize-database data-source="dataSource">
-			<jdbc:script location="classpath:/db/tables/psql_database_tables.sql"/>
-			<jdbc:script location="classpath:/db/tables/security-schema.sql"/>
-			<jdbc:script location="classpath:/db/tables/loading_temp_tables.sql"/>
-			<jdbc:script location="classpath:/db/users.sql"/>
-			<jdbc:script location="classpath:/db/clients.sql"/>
-			<jdbc:script location="classpath:/db/scopes.sql"/>
+			<jdbc:script location="classpath:/db/postgresql/database_tables.sql"/>
+			<jdbc:script location="classpath:/db/postgresql/security-schema.sql"/>
+			<jdbc:script location="classpath:/db/postgresql/loading_temp_tables.sql"/>
+			<jdbc:script location="classpath:/db/postgresql/users.sql"/>
+			<jdbc:script location="classpath:/db/postgresql/clients.sql"/>
+			<jdbc:script location="classpath:/db/postgresql/scopes.sql"/>
 		</jdbc:initialize-database>
 	</beans>
 

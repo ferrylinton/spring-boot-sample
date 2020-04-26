@@ -27,10 +27,10 @@
 
 	<cache 
     	name="oauth2ClientCache"
-   		maxElementsInMemory="1"
+   		maxElementsInMemory="100"
    		eternal="false"
-    	timeToIdleSeconds="2"
-    	timeToLiveSeconds="2"          
+    	timeToIdleSeconds="900"
+    	timeToLiveSeconds="86400"          
    		overflowToDisk="false"
    		diskPersistent="false"
     	memoryStoreEvictionPolicy="LRU"
@@ -47,10 +47,10 @@
             
 	<cache 
 		name="oauth2TokenCache"
-  		maxElementsInMemory="1"
+  		maxElementsInMemory="100"
    		eternal="false"
- 		timeToIdleSeconds="2"
-     	timeToLiveSeconds="2"          
+ 		timeToIdleSeconds="900"
+     	timeToLiveSeconds="3600"          
    		overflowToDisk="false"
     	diskPersistent="false"
     	memoryStoreEvictionPolicy="LRU"

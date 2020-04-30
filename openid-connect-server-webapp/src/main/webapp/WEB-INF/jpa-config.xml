@@ -42,8 +42,15 @@
 		<property name="jpaPropertyMap">
 			<map>
 				<entry key="eclipselink.weaving" value="false" />
+				<entry key="eclipselink.session.customizer" value="org.mitre.cache.SessionCustomizerImpl"/>
 				<!-- ECLIPSELINK CACHE PROPERTY -->
-				<entry key="eclipselink.cache.shared.default" value="false" />
+				<entry key="eclipselink.cache.shared.default" value="true" />
+				<entry key="eclipselink.cache.size.default" value="1000" />
+				<entry key="eclipselink.query-results-cache" value="true"/>
+            	<entry key="eclipselink.query-results-cache.size" value="500"/>
+            	
+            	<entry key="eclipselink.query-results-cache.expiry" value="3600000"/> <!-- 3600000 milliseconds, 1 hour -->
+            	<entry key="eclipselink.profiler" value="PerformanceMonitor"/>
             	<!-- ECLIPSELINK LOGGING PROPERTY -->
 				<entry key="eclipselink.logging.level" value="WARNING" />
 				<entry key="eclipselink.logging.level.sql" value="FINE" />
@@ -51,6 +58,8 @@
 			</map>
 		</property>
 		<property name="persistenceUnitName" value="defaultPersistenceUnit" />
+		<!-- ENABLE ECLIPSELINK CACHE -->
+		<property name="sharedCacheMode" value="ALL" />
 	</bean>
 
 

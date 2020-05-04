@@ -57,15 +57,7 @@ public class CacheAPI {
 		for (String name : ehCacheManager.getObject().getCacheNames()) {
 			net.sf.ehcache.Cache cache = ehCacheManager.getObject().getCache(name);
 			cache.removeAll();
-			
-			Map<String, Object> statistics = new HashMap<>();
-			statistics.put("size", cache.getStatistics().getSize());
-			statistics.put("cacheHitCount", cache.getStatistics().cacheHitCount());
-			statistics.put("cachePutCount", cache.getStatistics().cachePutCount());
-			statistics.put("cacheEvictedCount", cache.getStatistics().cacheEvictedCount());
-			statistics.put("cacheExpiredCount", cache.getStatistics().cacheExpiredCount());
-			
-			result.put(name, statistics);
+			result.put(name, cache.getSize());
 		}
 		
 		return result;
@@ -81,8 +73,9 @@ public class CacheAPI {
 	public @ResponseBody Map<String, Object> clearEclipselinkCache() {
 		manager.getEntityManagerFactory().getCache().evictAll();
 		
-		PerformanceMonitor performanceMonitor = (PerformanceMonitor) manager.unwrap(Session.class).getProfiler();
-		return performanceMonitor.getOperationTimings();
+		Map<String, Object> result = new HashMap<>();
+		result.put("clear", "ok");
+		return result;
 	}
 	
 }

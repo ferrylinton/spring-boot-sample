@@ -48,7 +48,7 @@
 	    <property name="cacheManager" ref="ehCacheManager"/>
 	    <property name="cacheName" value="oauth2ClientCache"/>
 	</bean>
-	
+
 	<bean id="systemScopeCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
 	    <property name="cacheManager" ref="ehCacheManager"/>
 	    <property name="cacheName" value="systemScopeCache"/>

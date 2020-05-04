@@ -82,10 +82,9 @@ public class OAuth2ClientAspect {
 			
 			if (oauth2ClientCache.isKeyInCache(client.getClientId())) {
 				logger.info ("cache :: remove [clientId='{}']", client.getClientId());
-				
 	            oauth2ClientCache.remove(client.getClientId());
 	        }
-			
+
 		} catch (Throwable e) {
 			logger.error(e.getLocalizedMessage(), e);
 		}
@@ -103,7 +102,7 @@ public class OAuth2ClientAspect {
 
 			if (oauth2ClientCache.isKeyInCache(client.getClientId())) {
 				logger.info ("cache :: remove [clientId='{}']", client.getClientId());
-				oauth2ClientCache.remove(client.getClientId());
+	            oauth2ClientCache.remove(client.getClientId());
 	        }
 			
 		} catch (Throwable e) {

@@ -23,7 +23,6 @@
    		overflowToDisk="false"
    		diskPersistent="false"
     	memoryStoreEvictionPolicy="LRU">
-    	
 	</defaultCache>
 
 	<cache 
@@ -35,9 +34,8 @@
    		overflowToDisk="false"
    		diskPersistent="false"
     	memoryStoreEvictionPolicy="LRU">
-    
     </cache>
-            
+    
  	<cache 
  		name="systemScopeCache"
      	maxElementsInMemory="20"
@@ -45,7 +43,6 @@
     	overflowToDisk="false"
      	diskPersistent="false"
      	memoryStoreEvictionPolicy="LRU">
-	
 	</cache>
             
 	<cache 
@@ -57,7 +54,6 @@
    		overflowToDisk="false"
     	diskPersistent="false"
     	memoryStoreEvictionPolicy="LRU">
-	
 	</cache>
 
 </ehcache>

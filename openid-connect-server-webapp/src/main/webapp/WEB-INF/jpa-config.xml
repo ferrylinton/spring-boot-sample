@@ -43,12 +43,13 @@
 		<property name="jpaVendorAdapter" ref="jpaAdapter" />
 		<property name="jpaPropertyMap" ref="jpaPropertyMap"/>
 		<property name="persistenceUnitName" value="defaultPersistenceUnit" />
-		<property name="sharedCacheMode" value="ALL" />
+		<property name="sharedCacheMode" value="NONE" />
 	</bean>
 
 	<util:map id="jpaPropertyMap"> 
   		<entry key="eclipselink.weaving" value="false" />
   		<entry key="eclipselink.profiler" value="PerformanceMonitor"/>
+  		<entry key="eclipselink.session.customizer" value="org.mitre.cache.SessionCustomizerImpl"/>
   		
   		<!-- JDBC -->
   		<entry key="eclipselink.jdbc.native-sql" value="true" />
@@ -56,10 +57,10 @@
         <entry key="eclipselink.jdbc.cache-statements.size" value="100" />
   		
 		<!-- ECLIPSELINK CACHE PROPERTY -->
-		<entry key="eclipselink.cache.shared.default" value="true" />
-		<entry key="eclipselink.cache.size.default" value="500" />
-		<entry key="eclipselink.query-results-cache" value="true"/>
-        <entry key="eclipselink.query-results-cache.size" value="500"/>
+		<entry key="eclipselink.cache.shared.default" value="false" />
+		<entry key="eclipselink.cache.size.default" value="0" />
+		<entry key="eclipselink.query-results-cache" value="false"/>
+        <entry key="eclipselink.query-results-cache.size" value="0"/>
         <entry key="eclipselink.query-results-cache.expiry" value="3600000"/> <!-- 3600000 milliseconds, 1 hour -->
         <entry key="eclipselink.flush-clear.cache" value="Drop" />
         

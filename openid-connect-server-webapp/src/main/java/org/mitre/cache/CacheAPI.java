@@ -50,8 +50,37 @@ public class CacheAPI {
 		return result;
 	}
 	
+	@RequestMapping(value = "/ehcache/clear", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Map<String, Object> clearEhcache() {
+		Map<String, Object> result = new HashMap<>();
+		
+		for (String name : ehCacheManager.getObject().getCacheNames()) {
+			net.sf.ehcache.Cache cache = ehCacheManager.getObject().getCache(name);
+			cache.removeAll();
+			
+			Map<String, Object> statistics = new HashMap<>();
+			statistics.put("size", cache.getStatistics().getSize());
+			statistics.put("cacheHitCount", cache.getStatistics().cacheHitCount());
+			statistics.put("cachePutCount", cache.getStatistics().cachePutCount());
+			statistics.put("cacheEvictedCount", cache.getStatistics().cacheEvictedCount());
+			statistics.put("cacheExpiredCount", cache.getStatistics().cacheExpiredCount());
+			
+			result.put(name, statistics);
+		}
+		
+		return result;
+	}
+	
 	@RequestMapping(value = "/eclipselink/info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Map<String, Object> getEclipselinkCacheInfo() {
+		PerformanceMonitor performanceMonitor = (PerformanceMonitor) manager.unwrap(Session.class).getProfiler();
+		return performanceMonitor.getOperationTimings();
+	}
+	
+	@RequestMapping(value = "/eclipselink/clear", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Map<String, Object> clearEclipselinkCache() {
+		manager.getEntityManagerFactory().getCache().evictAll();
+		
 		PerformanceMonitor performanceMonitor = (PerformanceMonitor) manager.unwrap(Session.class).getProfiler();
 		return performanceMonitor.getOperationTimings();
 	}

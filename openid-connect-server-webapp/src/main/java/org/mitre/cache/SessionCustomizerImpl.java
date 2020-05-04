@@ -14,8 +14,8 @@ public class SessionCustomizerImpl implements SessionCustomizer {
 		Collection<ClassDescriptor> classDescriptors = session.getDescriptors().values();
 		
 		for (ClassDescriptor classDescriptor : classDescriptors) {
-			classDescriptor.setIdentityMapSize(100);
-			classDescriptor.setCacheIsolation(CacheIsolationType.SHARED);
+			classDescriptor.setIdentityMapSize(0);
+			classDescriptor.setCacheIsolation(CacheIsolationType.ISOLATED);
 	 	}
 		
 	}

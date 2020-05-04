@@ -22,12 +22,14 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
@@ -39,28 +41,33 @@
 		<property name="persistenceProviderClass" value="org.eclipse.persistence.jpa.PersistenceProvider" />
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter" ref="jpaAdapter" />
-		<property name="jpaPropertyMap">
-			<map>
-				<entry key="eclipselink.weaving" value="false" />
-				<entry key="eclipselink.session.customizer" value="org.mitre.cache.SessionCustomizerImpl"/>
-				<!-- ECLIPSELINK CACHE PROPERTY -->
-				<entry key="eclipselink.cache.shared.default" value="false" />
-				<entry key="eclipselink.cache.size.default" value="0" />
-				<entry key="eclipselink.query-results-cache" value="false"/>
-            	<entry key="eclipselink.query-results-cache.size" value="0"/>
-            	
-            	<entry key="eclipselink.query-results-cache.expiry" value="3600000"/> <!-- 3600000 milliseconds, 1 hour -->
-            	<entry key="eclipselink.profiler" value="PerformanceMonitor"/>
-            	<!-- ECLIPSELINK LOGGING PROPERTY -->
-				<entry key="eclipselink.logging.level" value="WARNING" />
-				<entry key="eclipselink.logging.level.sql" value="FINE" />
-				<entry key="eclipselink.logging.parameters" value="true" />
-			</map>
-		</property>
+		<property name="jpaPropertyMap" ref="jpaPropertyMap"/>
 		<property name="persistenceUnitName" value="defaultPersistenceUnit" />
-		<!-- ENABLE ECLIPSELINK CACHE -->
-		<property name="sharedCacheMode" value="NONE" />
+		<property name="sharedCacheMode" value="ALL" />
 	</bean>
+
+	<util:map id="jpaPropertyMap"> 
+  		<entry key="eclipselink.weaving" value="false" />
+  		<entry key="eclipselink.profiler" value="PerformanceMonitor"/>
+  		
+  		<!-- JDBC -->
+  		<entry key="eclipselink.jdbc.native-sql" value="true" />
+        <entry key="eclipselink.jdbc.cache-statements" value="true" />
+        <entry key="eclipselink.jdbc.cache-statements.size" value="100" />
+  		
+		<!-- ECLIPSELINK CACHE PROPERTY -->
+		<entry key="eclipselink.cache.shared.default" value="true" />
+		<entry key="eclipselink.cache.size.default" value="500" />
+		<entry key="eclipselink.query-results-cache" value="true"/>
+        <entry key="eclipselink.query-results-cache.size" value="500"/>
+        <entry key="eclipselink.query-results-cache.expiry" value="3600000"/> <!-- 3600000 milliseconds, 1 hour -->
+        <entry key="eclipselink.flush-clear.cache" value="Drop" />
+        
+    	<!-- ECLIPSELINK LOGGING PROPERTY -->
+		<entry key="eclipselink.logging.level" value="WARNING" />
+		<entry key="eclipselink.logging.level.sql" value="FINE" />
+		<entry key="eclipselink.logging.parameters" value="true" />
+	</util:map>
 
 
 </beans>

@@ -3,8 +3,11 @@ package org.mitre.cache;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.mitre.oauth2.model.OAuth2AccessTokenEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +66,42 @@ public class OAuth2TokenAspect {
 		}
 		
 		return obj;
+	}
+	
+	@Around("execution(* org.mitre.oauth2.repository.impl.JpaOAuth2TokenRepository.saveAccessToken(..)) && args(token)")
+	public Object saveAccessToken(ProceedingJoinPoint proceedingJoinPoint, OAuth2AccessTokenEntity token) throws Throwable{
+		Object obj = null;
+		
+		try {
+			
+			obj = proceedingJoinPoint.proceed();
+	           
+            if (obj != null) {
+            	logger.info("cache :: add [accessTokenValue='{}']", token.getValue());
+                oauth2TokenCache.put(new Element(token.getValue(), obj));
+            }
+
+		} catch (Throwable e) {
+			logger.error(e.getLocalizedMessage(), e);
+			throw e;
+		}
+		
+		return obj;
+	}
+	
+	@Before("execution(* org.mitre.oauth2.repository.impl.JpaOAuth2TokenRepository.removeAccessToken(..)) && args(accessToken)")
+	public void removeAccessToken(JoinPoint joinPoint, OAuth2AccessTokenEntity accessToken) throws Throwable{
+		try {
+			
+			if (oauth2TokenCache.isKeyInCache(accessToken.getValue())) {
+				logger.info ("cache :: remove [accessTokenValue='{}']", accessToken.getValue());
+				
+				oauth2TokenCache.remove(accessToken.getValue());
+	        }
+			
+		} catch (Throwable e) {
+			logger.error(e.getLocalizedMessage(), e);
+		}
 	}
 	
 }

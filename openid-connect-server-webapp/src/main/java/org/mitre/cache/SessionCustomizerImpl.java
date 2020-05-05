@@ -11,14 +11,14 @@ import org.eclipse.persistence.sessions.Session;
 
 public class SessionCustomizerImpl implements SessionCustomizer {
 
-	private static final List<String> TABLES = Arrays.asList("authorization_code", "system_scope", "client_details", "authentication_holder", "saved_user_auth", "refresh_token");
+	private static final List<String> TABLES = Arrays.asList("client_details", "approved_site", "saved_registered_client", "resource_set", "blacklisted_site", "pairwise_identifier", "permission_ticket", "refresh_token", "policy", "authorization_code", "system_scope", "whitelisted_site", "address", "authentication_holder", "access_token", "saved_user_auth", "claim", "permission");
 	
 	@Override
 	public void customize(Session session) throws Exception {
 		Collection<ClassDescriptor> classDescriptors = session.getDescriptors().values();
 		
 		for (ClassDescriptor classDescriptor : classDescriptors) {
-			System.out.println(classDescriptor.getTableName());
+			System.out.println(classDescriptor.getTableName() + ", " + classDescriptor.getJavaClassName());
 			
 			if(TABLES.contains(classDescriptor.getTableName())) {
 				classDescriptor.useSoftCacheWeakIdentityMap();

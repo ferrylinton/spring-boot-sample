@@ -49,7 +49,7 @@
 	<util:map id="jpaPropertyMap"> 
   		<entry key="eclipselink.weaving" value="false" />
   		<entry key="eclipselink.profiler" value="PerformanceMonitor"/>
-  		<entry key="eclipselink.session.customizer" value="org.mitre.cache.SessionCustomizerImpl"/>
+  		<entry key="eclipselink.session.customizer" value="#{cacheProperty.disabled ? 'org.mitre.cache.CacheSessionCustomizer' : 'org.mitre.cache.CacheSessionCustomizer'}"/>
   		
   		<!-- JDBC -->
   		<entry key="eclipselink.jdbc.native-sql" value="true" />

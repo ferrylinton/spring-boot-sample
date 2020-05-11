@@ -18,8 +18,6 @@ public class SessionCustomizerImpl implements SessionCustomizer {
 		Collection<ClassDescriptor> classDescriptors = session.getDescriptors().values();
 		
 		for (ClassDescriptor classDescriptor : classDescriptors) {
-			System.out.println(classDescriptor.getTableName() + ", " + classDescriptor.getJavaClassName());
-			
 			if(TABLES.contains(classDescriptor.getTableName())) {
 				classDescriptor.useSoftCacheWeakIdentityMap();
 				classDescriptor.setIdentityMapSize(50);

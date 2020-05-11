@@ -19,16 +19,19 @@ docker run --name postgres -p 5432:5432 -e POSTGRES_DB=oic -e POSTGRES_USER=oic 
 ```
 mvn jetty:run -Dspring.profiles.active=hsql,db
 mvn jetty:run -Dspring.profiles.active=hsql
+mvn jetty:run -Dspring.profiles.active=hsql -DshowSql=true -DdisableCache=true
 ```
 
 ### MySql
 ```
 mvn jetty:run -Dspring.profiles.active=mysql,db
 mvn jetty:run -Dspring.profiles.active=mysql
+mvn jetty:run -Dspring.profiles.active=mysql -DshowSql=true -DdisableCache=true
 ```
 
 ### Postgresql
 ```
 mvn jetty:run -Dspring.profiles.active=postgresql,db
 mvn jetty:run -Dspring.profiles.active=postgresql
+mvn jetty:run -Dspring.profiles.active=postgresql -DshowSql=true -DdisableCache=true
 ```

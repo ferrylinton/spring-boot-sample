@@ -65,9 +65,7 @@
         <entry key="eclipselink.flush-clear.cache" value="Drop" />
         
     	<!-- ECLIPSELINK LOGGING PROPERTY -->
-		<entry key="eclipselink.logging.level" value="WARNING" />
-		<entry key="eclipselink.logging.level.sql" value="FINE" />
-		<entry key="eclipselink.logging.parameters" value="true" />
+		<entry key="eclipselink.logging.level" value="#{cacheProperty.loggingLevel}" />
 	</util:map>
 
 

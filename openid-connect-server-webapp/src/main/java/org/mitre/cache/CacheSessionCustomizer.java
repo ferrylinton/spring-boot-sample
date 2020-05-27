@@ -29,6 +29,7 @@ public class CacheSessionCustomizer implements SessionCustomizer {
 				classDescriptor.useSoftCacheWeakIdentityMap();
 				classDescriptor.setIdentityMapSize(50);
 				classDescriptor.setCacheIsolation(CacheIsolationType.SHARED);
+				classDescriptor.setCacheInterceptorClass(EhcacheCacheInterceptor.class);
 			}else {
 				classDescriptor.setIdentityMapSize(0);
 				classDescriptor.setCacheIsolation(CacheIsolationType.ISOLATED);

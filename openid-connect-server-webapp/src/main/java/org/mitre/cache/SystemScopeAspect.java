@@ -1,15 +1,19 @@
 package org.mitre.cache;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
+import javax.annotation.PostConstruct;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.mitre.oauth2.model.SystemScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.aspectj.lang.annotation.Around;
+
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 
 /**
  * 
@@ -26,7 +30,9 @@ public class SystemScopeAspect {
 	private static final Logger logger = LoggerFactory.getLogger(SystemScopeAspect.class);
 	
 	@Autowired
-	private Cache systemScopeCache;
+	private CacheManager ehCacheManager;
+	
+	private Cache cache;
 	
 	/**
 	 * Add SystemScope data to cache if not exist, and return SystemScope data from cache if exist <br>
@@ -43,18 +49,18 @@ public class SystemScopeAspect {
 		
 		try {
 			
-			if (systemScopeCache.isKeyInCache(id) && 
-					systemScopeCache.get(id) != null && 
-						systemScopeCache.get(id).getObjectValue() != null) {
+			if (cache.isKeyInCache(id) && 
+					cache.get(id) != null && 
+						cache.get(id).getObjectValue() != null) {
 				
 				logger.info("cache :: get [id='{}']", id);
-	            return systemScopeCache.get(id).getObjectValue();
+	            return cache.get(id).getObjectValue();
 	        } else {
 	        	obj = proceedingJoinPoint.proceed();
 	           
 	            if (obj != null) {
 	            	logger.info("cache :: add [id='{}']", id);
-	                systemScopeCache.put(new Element(id, obj));
+	                cache.put(new Element(id, obj));
 	            }
 	        }
 
@@ -81,18 +87,18 @@ public class SystemScopeAspect {
 		
 		try {
 			
-			if (systemScopeCache.isKeyInCache(scope) && 
-					systemScopeCache.get(scope) != null &&
-						systemScopeCache.get(scope).getObjectValue() != null) {
+			if (cache.isKeyInCache(scope) && 
+					cache.get(scope) != null &&
+						cache.get(scope).getObjectValue() != null) {
 				
 				logger.info("cache :: get [scope='{}']", scope);
-	            return systemScopeCache.get(scope).getObjectValue();
+	            return cache.get(scope).getObjectValue();
 	        } else {
 	        	obj = proceedingJoinPoint.proceed();
 	           
 	            if (obj != null) {
 	            	logger.info("cache :: add [scope='{}']", scope);
-	                systemScopeCache.put(new Element(scope, obj));
+	                cache.put(new Element(scope, obj));
 	            }
 	        }
 
@@ -102,6 +108,18 @@ public class SystemScopeAspect {
 		}
 		
 		return obj;
+	}
+	
+	@PostConstruct
+    private void postConstruct() {
+		String name = SystemScope.class.getSimpleName() + "CacheByValue";
+		int maxElementsInMemory = 20;
+		boolean overflowToDisk = false;
+		boolean eternal = true;
+		long timeToLiveSeconds = 60 * 60;
+		long timeToIdleSeconds = 15 * 60;
+		cache = new Cache(name, maxElementsInMemory, overflowToDisk, eternal, timeToLiveSeconds, timeToIdleSeconds);
+		ehCacheManager.addCache(cache);
 	}
 
 }

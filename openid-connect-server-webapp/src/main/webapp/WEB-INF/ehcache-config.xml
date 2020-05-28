@@ -39,27 +39,4 @@
 		<property name="shared" value="true" />
 	</bean>
 	
-	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-		<property name="cacheManager" ref="ehCacheManager"/>
-		<property name="transactionAware" value="true"/>
-	</bean>
-
-	<bean id="oauth2ClientCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-	    <property name="cacheManager" ref="ehCacheManager"/>
-	    <property name="cacheName" value="oauth2ClientCache"/>
-	    <property name="disabled" value="#{cacheProperty.disabled}"/>
-	</bean>
-
-	<bean id="systemScopeCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-	    <property name="cacheManager" ref="ehCacheManager"/>
-	    <property name="cacheName" value="systemScopeCache"/>
-	    <property name="disabled" value="#{cacheProperty.disabled}"/>
-	</bean>
-	
-	<bean id="oauth2TokenCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-	    <property name="cacheManager" ref="ehCacheManager"/>
-	    <property name="cacheName" value="oauth2TokenCache"/>
-	    <property name="disabled" value="#{cacheProperty.disabled}"/>
-	</bean>
-	
 </beans>

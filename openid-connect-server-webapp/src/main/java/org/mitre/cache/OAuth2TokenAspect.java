@@ -1,10 +1,10 @@
 package org.mitre.cache;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
+import javax.annotation.PostConstruct;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.mitre.oauth2.model.OAuth2AccessTokenEntity;
@@ -12,7 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.aspectj.lang.annotation.Around;
+
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 
 /**
  * 
@@ -29,7 +32,9 @@ public class OAuth2TokenAspect {
 	private static final Logger logger = LoggerFactory.getLogger(OAuth2TokenAspect.class);
 	
 	@Autowired
-	private Cache oauth2TokenCache;
+	private CacheManager ehCacheManager;
+	
+	private Cache cache;
 	
 	/**
 	 * Add OAuth2AccessTokenEntity data to cache if not exist, and return ClientDetailsEntity data from cache if exist
@@ -45,18 +50,18 @@ public class OAuth2TokenAspect {
 		
 		try {
 			
-			if (oauth2TokenCache.isKeyInCache(accessTokenValue) && 
-					oauth2TokenCache.get(accessTokenValue) != null &&
-						oauth2TokenCache.get(accessTokenValue).getObjectValue() != null) {
+			if (cache.isKeyInCache(accessTokenValue) && 
+					cache.get(accessTokenValue) != null &&
+						cache.get(accessTokenValue).getObjectValue() != null) {
 				
 				logger.info("cache :: get [accessTokenValue='{}']", accessTokenValue);
-	            return oauth2TokenCache.get(accessTokenValue).getObjectValue();
+	            return cache.get(accessTokenValue).getObjectValue();
 	        } else {
 	        	obj = proceedingJoinPoint.proceed();
 	           
 	            if (obj != null) {
 	            	logger.info("cache :: add [accessTokenValue='{}']", accessTokenValue);
-	                oauth2TokenCache.put(new Element(accessTokenValue, obj));
+	                cache.put(new Element(accessTokenValue, obj));
 	            }
 	        }
 
@@ -78,7 +83,7 @@ public class OAuth2TokenAspect {
 	           
             if (obj != null) {
             	logger.info("cache :: add [accessTokenValue='{}']", token.getValue());
-                oauth2TokenCache.put(new Element(token.getValue(), obj));
+                cache.put(new Element(token.getValue(), obj));
             }
 
 		} catch (Throwable e) {
@@ -93,15 +98,27 @@ public class OAuth2TokenAspect {
 	public void removeAccessToken(JoinPoint joinPoint, OAuth2AccessTokenEntity accessToken) throws Throwable{
 		try {
 			
-			if (oauth2TokenCache.isKeyInCache(accessToken.getValue())) {
+			if (cache.isKeyInCache(accessToken.getValue())) {
 				logger.info ("cache :: remove [accessTokenValue='{}']", accessToken.getValue());
 				
-				oauth2TokenCache.remove(accessToken.getValue());
+				cache.remove(accessToken.getValue());
 	        }
 			
 		} catch (Throwable e) {
 			logger.error(e.getLocalizedMessage(), e);
 		}
+	}
+	
+	@PostConstruct
+    private void postConstruct() {
+		String name = OAuth2AccessTokenEntity.class.getSimpleName() + "CacheByValue";
+		int maxElementsInMemory = 200;
+		boolean overflowToDisk = false;
+		boolean eternal = false;
+		long timeToLiveSeconds = 1 * 60 * 60;
+		long timeToIdleSeconds = 15 * 60;
+		cache = new Cache(name, maxElementsInMemory, overflowToDisk, eternal, timeToLiveSeconds, timeToIdleSeconds);
+		ehCacheManager.addCache(cache);
 	}
 	
 }

@@ -48,7 +48,6 @@
 
 	<util:map id="jpaPropertyMap"> 
   		<entry key="eclipselink.weaving" value="false" />
-  		<entry key="eclipselink.profiler" value="PerformanceMonitor"/>
   		<entry key="eclipselink.session.customizer" value="#{cacheProperty.disabled ? 'org.mitre.cache.CacheSessionCustomizer' : 'org.mitre.cache.CacheSessionCustomizer'}"/>
   		
   		<!-- JDBC -->
@@ -61,11 +60,13 @@
 		<entry key="eclipselink.cache.size.default" value="0" />
 		<entry key="eclipselink.query-results-cache" value="false"/>
         <entry key="eclipselink.query-results-cache.size" value="0"/>
-        <entry key="eclipselink.query-results-cache.expiry" value="3600000"/> <!-- 3600000 milliseconds, 1 hour -->
-        <entry key="eclipselink.flush-clear.cache" value="Drop" />
         
     	<!-- ECLIPSELINK LOGGING PROPERTY -->
 		<entry key="eclipselink.logging.level" value="#{cacheProperty.loggingLevel}" />
+		<entry key="eclipselink.logging.timestamp" value="false"/>
+		<entry key="eclipselink.logging.session" value="false"/>
+		<entry key="eclipselink.logging.parameters" value="true"/>
+		
 	</util:map>
 
 

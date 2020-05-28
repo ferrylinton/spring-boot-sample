@@ -6,10 +6,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.eclipse.persistence.sessions.Session;
-import org.eclipse.persistence.tools.profiler.PerformanceMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -18,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+
+
 @Transactional(readOnly = true)
 @Controller
 @RequestMapping("/api/caches")
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class CacheAPI {
 
 	@Autowired
-	private EhCacheManagerFactoryBean ehCacheManager;
+	private CacheManager ehCacheManager;
 	
 	@PersistenceContext(unitName="defaultPersistenceUnit")
 	private EntityManager manager;
@@ -34,12 +35,12 @@ public class CacheAPI {
 	public @ResponseBody Map<String, Object> getEhcacheInfo() {
 		Map<String, Object> result = new HashMap<>();
 		
-		for (String name : ehCacheManager.getObject().getCacheNames()) {
-			net.sf.ehcache.Cache cache = ehCacheManager.getObject().getCache(name);
+		for (String name : ehCacheManager.getCacheNames()) {
+			Cache cache = ehCacheManager.getCache(name);
 			
 			Map<String, Object> statistics = new HashMap<>();
-			statistics.put("size", cache.getStatistics().getSize());
-			statistics.put("cacheHitCount", cache.getStatistics().cacheHitCount());
+			statistics.put("size", cache.getSize());
+			statistics.put("cacheHitCount", cache.getSize());
 			statistics.put("cachePutCount", cache.getStatistics().cachePutCount());
 			statistics.put("cacheEvictedCount", cache.getStatistics().cacheEvictedCount());
 			statistics.put("cacheExpiredCount", cache.getStatistics().cacheExpiredCount());
@@ -54,27 +55,13 @@ public class CacheAPI {
 	public @ResponseBody Map<String, Object> clearEhcache() {
 		Map<String, Object> result = new HashMap<>();
 		
-		for (String name : ehCacheManager.getObject().getCacheNames()) {
-			net.sf.ehcache.Cache cache = ehCacheManager.getObject().getCache(name);
+		for (String name : ehCacheManager.getCacheNames()) {
+			net.sf.ehcache.Cache cache = ehCacheManager.getCache(name);
 			cache.removeAll();
 			result.put(name, cache.getSize());
 		}
 		
-		return result;
-	}
-	
-	@RequestMapping(value = "/eclipselink/info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Map<String, Object> getEclipselinkCacheInfo() {
-		PerformanceMonitor performanceMonitor = (PerformanceMonitor) manager.unwrap(Session.class).getProfiler();
-		return performanceMonitor.getOperationTimings();
-	}
-	
-	@RequestMapping(value = "/eclipselink/clear", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Map<String, Object> clearEclipselinkCache() {
 		manager.getEntityManagerFactory().getCache().evictAll();
-		
-		Map<String, Object> result = new HashMap<>();
-		result.put("clear", "ok");
 		return result;
 	}
 	

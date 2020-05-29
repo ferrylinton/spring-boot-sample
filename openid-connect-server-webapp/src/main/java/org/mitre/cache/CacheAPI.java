@@ -2,6 +2,7 @@ package org.mitre.cache;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,7 +34,7 @@ public class CacheAPI {
 	
 	@RequestMapping(value = "/ehcache/info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Map<String, Object> getEhcacheInfo() {
-		Map<String, Object> result = new HashMap<>();
+		Map<String, Object> result = new TreeMap<>();
 		
 		for (String name : ehCacheManager.getCacheNames()) {
 			Cache cache = ehCacheManager.getCache(name);
@@ -53,10 +54,10 @@ public class CacheAPI {
 	
 	@RequestMapping(value = "/ehcache/clear", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Map<String, Object> clearEhcache() {
-		Map<String, Object> result = new HashMap<>();
+		Map<String, Object> result = new TreeMap<>();
 		
 		for (String name : ehCacheManager.getCacheNames()) {
-			net.sf.ehcache.Cache cache = ehCacheManager.getCache(name);
+			Cache cache = ehCacheManager.getCache(name);
 			cache.removeAll();
 			result.put(name, cache.getSize());
 		}

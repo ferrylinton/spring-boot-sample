@@ -32,45 +32,10 @@ public class SystemScopeAspect {
 	@Autowired
 	private CacheManager ehCacheManager;
 	
-	private Cache cache;
+	@Autowired
+	private CacheProperty cacheProperty;
 	
-	/**
-	 * Add SystemScope data to cache if not exist, and return SystemScope data from cache if exist <br>
-	 * SystemScope's data will be saved in cache with SystemScope's id as key
-	 * 
-	 * @param proceedingJoinPoint
-	 * @param id SystemScope's id
-	 * @return SystemScope's object
-	 * @throws Throwable
-	 */
-	@Around("execution(* org.mitre.oauth2.repository.impl.JpaSystemScopeRepository.getById(..)) && args(id)")
-	public Object getById(ProceedingJoinPoint proceedingJoinPoint, Long id) throws Throwable{
-		Object obj = null;
-		
-		try {
-			
-			if (cache.isKeyInCache(id) && 
-					cache.get(id) != null && 
-						cache.get(id).getObjectValue() != null) {
-				
-				logger.info("cache :: get [id='{}']", id);
-	            return cache.get(id).getObjectValue();
-	        } else {
-	        	obj = proceedingJoinPoint.proceed();
-	           
-	            if (obj != null) {
-	            	logger.info("cache :: add [id='{}']", id);
-	                cache.put(new Element(id, obj));
-	            }
-	        }
-
-		} catch (Throwable e) {
-			logger.error(e.getLocalizedMessage(), e);
-			throw e;
-		}
-		
-		return obj;
-	}
+	private Cache cache;
 	
 	/**
 	 * Add SystemScope data to cache if not exist, and return SystemScope data from cache if exist<br>
@@ -113,12 +78,8 @@ public class SystemScopeAspect {
 	@PostConstruct
     private void postConstruct() {
 		String name = SystemScope.class.getSimpleName() + "CacheByValue";
-		int maxElementsInMemory = 20;
-		boolean overflowToDisk = false;
-		boolean eternal = true;
-		long timeToLiveSeconds = 0;
-		long timeToIdleSeconds = 0;
-		cache = new Cache(name, maxElementsInMemory, overflowToDisk, eternal, timeToLiveSeconds, timeToIdleSeconds);
+		cache = new Cache(name, 20, false, true, 0, 0);
+		cache.setDisabled(cacheProperty.isDisabled());
 		ehCacheManager.addCache(cache);
 	}
 

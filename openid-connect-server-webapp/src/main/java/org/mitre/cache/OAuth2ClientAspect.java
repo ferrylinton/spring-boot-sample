@@ -35,6 +35,9 @@ public class OAuth2ClientAspect {
 	@Autowired
 	private CacheManager ehCacheManager;
 	
+	@Autowired
+	private CacheProperty cacheProperty;
+	
 	private Cache cache;
 
 	/**
@@ -118,12 +121,10 @@ public class OAuth2ClientAspect {
 	@PostConstruct
     private void postConstruct() {
 		String name = ClientDetailsEntity.class.getSimpleName() + "CacheByClientId";
-		int maxElementsInMemory = 20;
-		boolean overflowToDisk = false;
-		boolean eternal = false;
 		long timeToLiveSeconds = 24 * 60 * 60;
 		long timeToIdleSeconds = 15 * 60;
-		cache = new Cache(name, maxElementsInMemory, overflowToDisk, eternal, timeToLiveSeconds, timeToIdleSeconds);
+		cache = new Cache(name, 20, false, false, timeToLiveSeconds, timeToIdleSeconds);
+		cache.setDisabled(cacheProperty.isDisabled());
 		ehCacheManager.addCache(cache);
 	}
 	

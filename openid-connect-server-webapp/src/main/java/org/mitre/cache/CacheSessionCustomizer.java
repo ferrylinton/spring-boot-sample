@@ -15,9 +15,25 @@ public class CacheSessionCustomizer implements SessionCustomizer {
 
 	@Override
 	public void customize(Session session) throws Exception {
+		if (EhcacheUtil.isDisabled()) {
+			noCache();
+		}else {
+			enableCache(session);
+		}
+		
+	}
+	
+	private synchronized void noCache() {
+		logger.info("###############################################");
+		logger.info("################## NO CACHE ###################");
+		logger.info("###############################################");
+	}
+	
+	private synchronized void enableCache(Session session) {
 		logger.info("######################################################");
 		logger.info("################## CACHE IS ENABLE ###################");
 		logger.info("######################################################");
+		
 		Collection<ClassDescriptor> classDescriptors = session.getDescriptors().values();
 		
 		for (ClassDescriptor classDescriptor : classDescriptors) {
@@ -26,7 +42,6 @@ public class CacheSessionCustomizer implements SessionCustomizer {
 			classDescriptor.setCacheIsolation(CacheIsolationType.SHARED);
 			classDescriptor.setCacheInterceptorClass(EhcacheCacheInterceptor.class);
 	 	}
-
 	}
 
 }

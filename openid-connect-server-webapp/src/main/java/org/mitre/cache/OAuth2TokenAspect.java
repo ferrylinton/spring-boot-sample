@@ -34,6 +34,9 @@ public class OAuth2TokenAspect {
 	@Autowired
 	private CacheManager ehCacheManager;
 	
+	@Autowired
+	private CacheProperty cacheProperty;
+	
 	private Cache cache;
 	
 	/**
@@ -112,12 +115,10 @@ public class OAuth2TokenAspect {
 	@PostConstruct
     private void postConstruct() {
 		String name = OAuth2AccessTokenEntity.class.getSimpleName() + "CacheByValue";
-		int maxElementsInMemory = 200;
-		boolean overflowToDisk = false;
-		boolean eternal = false;
 		long timeToLiveSeconds = 1 * 60 * 60;
 		long timeToIdleSeconds = 15 * 60;
-		cache = new Cache(name, maxElementsInMemory, overflowToDisk, eternal, timeToLiveSeconds, timeToIdleSeconds);
+		cache = new Cache(name, 200, false, false, timeToLiveSeconds, timeToIdleSeconds);
+		cache.setDisabled(cacheProperty.isDisabled());
 		ehCacheManager.addCache(cache);
 	}
 	

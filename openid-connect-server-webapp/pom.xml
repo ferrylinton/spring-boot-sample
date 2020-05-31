@@ -96,6 +96,7 @@
 					<webAppConfig>
 						<contextPath>/openid-connect-server-webapp</contextPath>
 					</webAppConfig>
+					<jvmArgs></jvmArgs>
 				</configuration>
 			</plugin>
 		</plugins>

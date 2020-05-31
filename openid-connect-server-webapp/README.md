@@ -1,6 +1,11 @@
 # OpenID ConnectServer
 
 
+## JVM
+```
+-Xmx1024m -Xms256m
+```
+
 ## Docker
 
 ### MySql

@@ -116,8 +116,8 @@ public class SystemScopeAspect {
 		int maxElementsInMemory = 20;
 		boolean overflowToDisk = false;
 		boolean eternal = true;
-		long timeToLiveSeconds = 60 * 60;
-		long timeToIdleSeconds = 15 * 60;
+		long timeToLiveSeconds = 0;
+		long timeToIdleSeconds = 0;
 		cache = new Cache(name, maxElementsInMemory, overflowToDisk, eternal, timeToLiveSeconds, timeToIdleSeconds);
 		ehCacheManager.addCache(cache);
 	}

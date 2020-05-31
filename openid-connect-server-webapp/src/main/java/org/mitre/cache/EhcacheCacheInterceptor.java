@@ -10,26 +10,15 @@ import org.eclipse.persistence.sessions.interceptors.CacheInterceptor;
 import org.eclipse.persistence.sessions.interceptors.CacheKeyInterceptor;
 
 import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
 public class EhcacheCacheInterceptor extends CacheInterceptor {
 
-	private static final String EHCACHE_MANAGER = "ehCacheManager";
-	
 	private Cache cache;
 
 	public EhcacheCacheInterceptor(IdentityMap targetIdentityMap, AbstractSession interceptedSession) {
 		super(targetIdentityMap, interceptedSession);
-		
-		String name = targetIdentityMap.getDescriptorClass().getSimpleName() + "CacheById";
-		int maxElementsInMemory = 200;
-		boolean overflowToDisk = false;
-		boolean eternal = false;
-		long timeToLiveSeconds = 60 * 60;
-		long timeToIdleSeconds = 15 * 60;
-		cache = new Cache(name, maxElementsInMemory, overflowToDisk, eternal, timeToLiveSeconds, timeToIdleSeconds);
-		BeanUtil.getBean(EHCACHE_MANAGER, CacheManager.class).addCache(cache);
+		cache = EhcacheUtil.createCache(targetIdentityMap.getDescriptorClass().getSimpleName() + "CacheById");
 	}
 
 	@Override
